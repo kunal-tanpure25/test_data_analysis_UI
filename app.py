@@ -4,9 +4,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-# Importing functions for data filtering and plotting
 from filter_data import filter_program_data
 from plot_data import plotting
+
+
 
 class DataAnalyzerApp:
     def __init__(self, master):
@@ -30,6 +31,9 @@ class DataAnalyzerApp:
         self.plot_button = ttk.Button(master, text="Plot Graphs", command=self.plot_graphs)
         self.plot_button.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
 
+        self.insights_button = ttk.Button(master, text="Show Insights", command=self.show_insights)
+        self.insights_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
+
     def select_file(self):
         self.filepath = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx"), ("CSV files", "*.csv")])
         if self.filepath:
@@ -37,7 +41,6 @@ class DataAnalyzerApp:
 
     def analyze_data(self):
         if self.filepath:
-            # Perform data filtering and analysis
             try:
                 self.filtered_data = filter_program_data(self.filepath)
                 messagebox.showinfo("Analysis", "Data has been analyzed successfully!")
@@ -78,6 +81,31 @@ class DataAnalyzerApp:
         self.toolbar.pack(side=tk.BOTTOM, fill=tk.X)
         self.toolbar_btn = ttk.Button(self.toolbar, text="Close", command=self.plot_window.destroy)
         self.toolbar_btn.pack()
+
+    def show_insights(self):
+        if hasattr(self, 'filtered_data'):
+            # Perform insights analysis
+            try:
+                rpm_above_200 = [rpm for rpm in self.filtered_data["rpm"].iloc[:200] if rpm > 200]
+                insights = ""
+                if rpm_above_200:
+                    if rpm_above_200[0] < 230:
+                        insights = f"Load sensing rpm is {rpm_above_200} and load size is 10kg"
+                    elif rpm_above_200[0] < 260:
+                        insights = f"Load sensing rpm is {rpm_above_200} and load size is 8kg"
+                    elif rpm_above_200[0] < 290:
+                        insights = f"Load sensing rpm is {rpm_above_200} and load size is 5kg"
+                    else:
+                        insights = "Load Sensing skipped"
+                else:
+                    insights = "No RPM data above 200 found in the first 200 entries."
+
+                # Show insights in message box
+                messagebox.showinfo("Insights", insights)
+            except Exception as e:
+                messagebox.showerror("Error", f"An error occurred during insights analysis: {str(e)}")
+        else:
+            messagebox.showerror("Error", "Please analyze data first!")
 
 
 def main():
