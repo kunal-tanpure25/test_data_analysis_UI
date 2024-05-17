@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Washer Test Data</h1>
+    </header>
+    <main>
+        <!-- <div class="container">
+            <h2>Filtered Program Data</h2>
+            <div id="data-table">
+                {{ data_table|safe }}
+            </div>
+        </div> -->
+        <div class="container">
+            <h2>Detailed Graphical Analysis</h2>
+            <div class="plot">
+                <hr>
+                <h3>RPM Chart</h3>
+                <hr>
+                <img src="{{ url_for('static', filename='images/rpm_chart.png') }}" alt="RPM Chart"  >
+            </div>
+            <div class="plot">
+                <hr>
+                <h3>Operation Chart</h3>
+                <hr>
+                <img src="{{ url_for('static', filename='images/operation_chart.png') }}" alt="Operation Chart"  >
+            </div>
+            <div class="plot">
+                <hr>
+                <h3>Temperature Chart</h3>
+                <hr>
+                <img src="{{ url_for('static', filename='images/temp_chart.png') }}" alt="Temperature Chart"  >
+            </div>
+            <div class="plot">
+                <hr>
+                <h3>Frequency Chart</h3>
+                <hr>
+                <img src="{{ url_for('static', filename='images/freq_chart.png') }}" alt="Frequency Chart"  >
+                <hr>
+            </div>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
